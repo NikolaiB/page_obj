@@ -9,17 +9,19 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
     private WebDriver driver;
 
-    private final NavigationHelper navigationHelper = new NavigationHelper();
+    private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
     private SessionHelper sessionHelper;
 
     public void init() {
         driver = new FirefoxDriver();
+        sessionHelper = new SessionHelper(driver);
+        groupHelper = new GroupHelper(driver);
+        navigationHelper = new NavigationHelper(driver);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get("http://localhost/addressbook");
-        groupHelper = new GroupHelper(driver);
         sessionHelper.login("admin", "secret");
-        sessionHelper = new SessionHelper(driver);
+
     }
 
     public void logout() {
